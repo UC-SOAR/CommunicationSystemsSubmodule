@@ -6,12 +6,14 @@
 #include <stm32h7xx_hal_qspi.h>
 
 // Forward declaration to satisfy linker without include statement
-struct QSPI_DeviceContext;
-enum class QSPI_Result;
+#include "QSPI_Command.hpp"
+#include "QSPI_DeviceContext.hpp"
+#include "QSPI_Result.hpp"
 
 /**
  * This class provides another layer of abstraction over HAL.
  * It encapsulates a HAL QSPI handle to provide a safer and easier to use API.
+ * The QSPI handle must be intialized prior to this wrapper being initialized.
  *
  * The intent is for only one instance of this class to exist.
  */
@@ -22,13 +24,10 @@ class QSPI_Driver {
  public:
   QSPI_Driver(QSPI_HandleTypeDef &hqspi) : qspi_handle(hqspi) {}
 
-  QSPI_Result send_command(QSPI_DeviceContext &ctx, uint8_t *reg_ptr,
-                           uint8_t *cmd_ptr) const;
+  QSPI_Result send_command(const QSPI_DeviceContext &ctx,
+                           const QSPI_Command &cmd) const;
   QSPI_Result read(QSPI_DeviceContext &ctx, uint8_t *cmd_ptr,
                    uint8_t *dest_ptr) const;
-
-  size_t get_transfer_size() const { return this->qspi_handle.TxXferSize; }
-  size_t get_receive_size() const { return this->qspi_handle.RxXferSize; }
 };
 
 #endif  // QSPI_DRIVER_HPP

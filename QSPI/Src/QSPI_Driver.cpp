@@ -24,37 +24,25 @@
 #include "../Inc/QSPI_DeviceContext.hpp"
 #include "../Inc/QSPI_Result.hpp"
 
-QSPI_Result QSPI_Driver::send_command(QSPI_DeviceContext &ctx, uint8_t *reg_ptr,
-                                      uint8_t *cmd_ptr) const {
+QSPI_Result QSPI_Driver::send_command(const QSPI_DeviceContext &ctx,
+                                      const QSPI_Command &cmd) const {
   // Pull chip select to low
   // Standard communiaction protocol before sending command
-  const QSPI_Result cs_low_result = from_hal_status(HAL_GPIO_WritePin(
-      ctx.get_cs_port_as_ptr(), ctx.get_cs_pin(), GPIO_PIN_RESET));
-  if (!cs_low_result) {
-    return cs_low_result;
-  }
-
-  // Send address of target register
-  const QSPI_Result send_addr_result = from_hal_status(
-      HAL_QSPI_Transmit(&this->qspi_handle, reg_ptr, ctx.get_timeout()));
-  if (!send_addr_result) {
-    return send_addr_result;
-  }
+  HAL_GPIO_WritePin(ctx.get_cs_port_as_ptr(), ctx.get_cs_pin(), GPIO_PIN_RESET);
 
   // Write command to register
+  QSPI_CommandTypeDef hal_cmd = to_hal_cmd(cmd);
+
   const QSPI_Result write_cmd_result = from_hal_status(
-      HAL_QSPI_Transmit(&this->qspi_handle, cmd_ptr, ctx.get_timeout()));
+      HAL_QSPI_Command(&this->qspi_handle, &hal_cmd, ctx.get_timeout()));
+
   if (!write_cmd_result) {
     return write_cmd_result;
   }
 
   // Pull CS back to high
   // This signifies the end of the command
-  const QSPI_Result cs_high_result = from_hal_status(HAL_GPIO_WritePin(
-      ctx.get_cs_port_as_ptr(), ctx.get_cs_pin(), GPIO_PIN_SET));
-  if (!cs_high_result) {
-    return cs_high_result;
-  }
+  HAL_GPIO_WritePin(ctx.get_cs_port_as_ptr(), ctx.get_cs_pin(), GPIO_PIN_SET);
 
   return QSPI_Result::Ok;
 }
