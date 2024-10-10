@@ -15,8 +15,10 @@ struct QSPI_Command {
   uint8_t instruction;
   uint32_t address;
   QSPI_AddressSize address_size;
-};
+  size_t transfer_size;
+  uint8_t *data_buffer = nullptr;
 
-QSPI_CommandTypeDef to_hal_cmd(const QSPI_Command &cmd);
+  QSPI_CommandTypeDef to_hal_cmd() const;
+};
 
 #endif  // QSPI_COMMAND_HPP
