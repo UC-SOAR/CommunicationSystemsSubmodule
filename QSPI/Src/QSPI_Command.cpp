@@ -1,5 +1,8 @@
 #include "../Inc/QSPI_Command.hpp"
 
+// If anything causes problems, it probably has to do with this function
+// This requires testing along with the rest of the QSPI driver but this is the
+// most likely source of issues
 QSPI_CommandTypeDef QSPI_Command::to_hal_cmd() const {
   QSPI_CommandTypeDef hal_cmd;
 

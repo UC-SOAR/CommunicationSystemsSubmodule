@@ -1,19 +1,5 @@
 /**
  * @author Connell Reffo
- * @brief This driver is specific to STM32H7xx chips
- *
- * To set up correctly in VS Code, add the following to c_cpp_properties.json:
- *
- * ```json
- * "includePath": [
- *     "${workspaceFolder}/**",
- *     "<path>/AvionicsTemplateRepository/Drivers/CMSIS/Device/ST/STM32H7xx/Include/**",
- *     "<path>/AvionicsTemplateRepository/Drivers/CMSIS/Include/**",
- *     "<path>/AvionicsTemplateRepository/Drivers/STM32H7xx_HAL_Driver/Inc/**",
- *     "<path>/AvionicsTemplateRepository/Core/Inc/**"
- * ]
- * "defines": ["QUADSPI"]
- * ```
  */
 
 #include "../Inc/QSPI_Driver.hpp"
