@@ -1,2 +1,3 @@
 # Ignore .pre-commit-config.yaml
+.vscode/
 .pre-commit-config.yaml
