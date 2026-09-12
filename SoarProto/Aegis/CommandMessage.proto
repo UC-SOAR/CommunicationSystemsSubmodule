@@ -120,8 +120,10 @@ message FcbCommand {
         RSC_AIR_BRAKES_ENABLE = 34;
         RSC_AIR_BRAKES_DISABLE = 35;
 
+        RSC_ERASE_FLASH = 36;
+
         //-- TECHNICAL --
-        RSC_NONE = 36;   // Invalid command, must be last
+        RSC_NONE = 37;   // Invalid command, must be last
 
         // TODO NEW : ADD NEW COMMANDS FOR HEATER? OR AIRBRAKES AND STUFF. OR CREATE A NEW MESSAGE TYPE FOR NON-FLIGHT-SEQUENCE COMMANDS?
     }
